@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 
 export default async function SkinsPage() {
@@ -15,7 +16,12 @@ export default async function SkinsPage() {
             className="border rounded p-4 flex justify-between items-center"
           >
             <div>
-              <p className="font-semibold">{skin.name}</p>
+              <Link
+                href={`/skins/${skin.id}`}
+                className="font-semibold hover:underline"
+              >
+                {skin.name}
+              </Link>
               <p className="text-sm text-gray-500">
                 {skin.weaponType} · {skin.rarity}
               </p>
