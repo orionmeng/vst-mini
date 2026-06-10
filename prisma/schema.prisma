@@ -1,0 +1,36 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id             String         @id @default(cuid())
+  email          String         @unique
+  hashedPassword String
+  createdAt      DateTime       @default(now())
+  wishlistEntries WishlistEntry[]
+}
+
+model Skin {
+  id             String         @id @default(cuid())
+  name           String
+  weaponType     String
+  rarity         String
+  imageUrl       String?
+  wishlistEntries WishlistEntry[]
+}
+
+model WishlistEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  skinId    String
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skin      Skin     @relation(fields: [skinId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, skinId])
+}
